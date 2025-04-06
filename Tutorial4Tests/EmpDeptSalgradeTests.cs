@@ -131,8 +131,8 @@ public class EmpDeptSalgradeTests
                 e => true,
                 s => true,
                 (e, s) => new {e.EName, e.Sal, s.Losal, s.Hisal, s.Grade})
-            .Where(x => x.Sal >= x.Losal && x.Sal <= x.Hisal)
-            .Select(x => new {x.EName, x.Grade})
+            .Where(r => r.Sal >= r.Losal && r.Sal <= r.Hisal)
+            .Select(r => new {r.EName, r.Grade})
             .ToList();
         
         Assert.Contains(result, r => r.EName == "ALLEN" && r.Grade == 3);
@@ -147,11 +147,7 @@ public class EmpDeptSalgradeTests
 
         var result = emps
             .GroupBy(e => e.DeptNo)
-            .Select(g => new
-            {
-                DeptNo = g.Key,
-                AvgSal = g.Average(s => s.Sal)
-            })
+            .Select(g => new { DeptNo = g.Key, AvgSal = g.Average(s => s.Sal) })
             .ToList(); 
         
         Assert.Contains(result, r => r.DeptNo == 30 && r.AvgSal > 1000);
